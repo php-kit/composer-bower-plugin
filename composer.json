@@ -1,0 +1,42 @@
+{
+  "name": "impactwave/composer-bower-plugin",
+  "description": "Composer plugin for installing front-end packages using BowerPHP",
+  "type": "composer-plugin",
+  "keywords": [
+    "bower",
+    "composer",
+    "plugin",
+    "dependency",
+    "front-end",
+    "packages",
+    "assets"
+  ],
+  "homepage": "https://github.com/impactwave/composer-bower-plugin",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Impactwave",
+      "email": "impactwave@impactwave.com",
+      "homepage": "http://impactwave.com"
+    },
+    {
+      "name": "Cláudio Silva",
+      "email": "claudio.silva@impactwave.com"
+    }
+  ],
+  "minimum-stability": "dev",
+  "require": {
+    "composer-plugin-api": "^1.0"
+  },
+  "require-dev": {
+    "composer/composer": "dev-master"
+  },
+  "extra": {
+    "class": "Impactwave\\ComposerBowerPlugin\\Plugin"
+  },
+  "autoload": {
+    "psr-4": {
+      "Impactwave\\ComposerBowerPlugin\\": "src"
+    }
+  }
+}
