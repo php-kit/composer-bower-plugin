@@ -3,18 +3,13 @@
 
 This Composer plugin allows you to declare, manage and install front-end packages from the Bower repository on your project using Composer.
 
-This is a pure PHP solution. **There's no need to install neither Bower nor Node.js on your computer.**
-
 Besides managing your main application's front-end packages, **it also supports package dependencies**, i.e. other installed composer 
 packages may define their own bower dependencies.
 
-This plugin will merge all dependencies in memory, while running. No configuration files on disk will be modified.
+This plugin will merge all bower dependencies and generate a `bower.json` file on the root directory of your project.
 
-> **Note:** this Readme has information that only applies to the final version of the plugin, which is **not yet available**.  
-Currently, the plugin **still uses the Bower executable** for installing packages.  
-Some of the information on this document may still not apply.  
-This notice will be removed as soon as the final version is completed.  
-We're sorry for the inconvenience.
+> You should exclude this file from version control and you should refrain from modifying it, as you may loose any changes
+you make to it.
 
 ### Configuring
 
@@ -50,17 +45,15 @@ packages' own `composer.json`.
 #### Target installation directory
 
 The dependencies will be installed on `vendor/bower_components` by default.
-You can customize that location via the `extra.bower.directory` setting.
-
-> `extra.bower.directory` is valid only on the main `composer.json`.
-
-> `.bowerrc` files are not supported.
+You can customize that location via a `.bowerrc` file. Refer to the Bower documentation.
 
 ### Running
 
 The plugin updates bower dependencies whenever one or more packages are installed or removed.
 
 You may then copy the relevant source code files from the installation directory to a public web directory, using your favorite build tool.
+
+##### The following information refers to functionality that is not yet available
 
 To automate that process, `composer-bower-plugin` exposes a hook for running your build script.
 
@@ -76,6 +69,9 @@ Packages cannot specify their own scripts.
 
 This library is open-source software licensed under the [MIT license](http://opensource.org/licenses/MIT).
 
-Copyright &copy; 2015 Impactwave, Lda.
+Copyright &copy; 2015 Impactwave, Lda and Vivid Planet Software GmbH
 
-Some parts of the source code originated from the [composer-extra-assets plugin](https://github.com/koala-framework/composer-extra-assets) and have been extensively modified.
+The project started originally as a fork of [composer-extra-assets plugin](https://github.com/koala-framework/composer-extra-assets),
+but it is being completely rewritten to use BowerPHP instead of the Bower executable. Soon, all code from the original project will be gone.
+
+Thank you, Niko Sams, for such an excelent plugin.
