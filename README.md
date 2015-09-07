@@ -1,5 +1,5 @@
 
-## Composer plugin for installing front-end packages using BowerPHP
+## Composer plugin for installing Bower packages
 
 This Composer plugin allows you to declare, manage and install front-end packages from the Bower repository on your project using Composer.
 

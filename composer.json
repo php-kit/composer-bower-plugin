@@ -1,6 +1,6 @@
 {
   "name": "impactwave/composer-bower-plugin",
-  "description": "Composer plugin for installing front-end packages using BowerPHP",
+  "description": "Composer plugin for installing Bower packages",
   "type": "composer-plugin",
   "keywords": [
     "bower",
