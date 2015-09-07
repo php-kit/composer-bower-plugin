@@ -15,14 +15,12 @@ class Plugin implements PluginInterface, EventSubscriberInterface
   protected $composer;
   /** @var IOInterface */
   protected $io;
+  protected $lead = "  <info>[composer-bower-plugin]</info>";
 
   public function activate (Composer $composer, IOInterface $io)
   {
     $this->composer = $composer;
     $this->io       = $io;
-
-    if ($this->io->isDebug ())
-      $this->io->write (PHP_EOL . "<info>[composer-bower-plugin]</info> Enabled." . PHP_EOL);
   }
 
   public static function getSubscribedEvents ()
@@ -37,10 +35,27 @@ class Plugin implements PluginInterface, EventSubscriberInterface
     ];
   }
 
-  public function onPostUpdate (Event $event)
+  protected function write ($msg)
+  {
+    $lines = explode(PHP_EOL, $msg);
+    if ($lines) {
+      $this->io->write ("$this->lead " . array_shift ($lines));
+      if ($lines) {
+        $msg = implode (PHP_EOL.'    ', $lines);
+        $this->io->write ("    $msg");
+      }
+    }
+  }
+
+  protected function info ($msg)
   {
     if ($this->io->isDebug ())
-      $this->io->write (PHP_EOL . "<info>[composer-bower-plugin]</info> Running..." . PHP_EOL);
+      $this->write ($msg);
+  }
+
+  public function onPostUpdate (Event $event)
+  {
+    $this->info ("Running...");
 
     $requireBower = [];
 
@@ -56,19 +71,20 @@ class Plugin implements PluginInterface, EventSubscriberInterface
     foreach ($packages as $package) {
       if ($package instanceof CompletePackage) {
         $extra = $package->getExtra ();
-        if (isset($extra['bower']) && isset($extra['bower']['require'])) {
+        if (isset($extra['bower']) && isset($extra['bower']['require']))
           $requireBower = $this->_mergeDependencyVersions ($requireBower, $extra['bower']['require']);
-        }
       }
     }
 
-    $this->io->write("Required:\n\n".var_export($requireBower, true)."\n");
+    if ($requireBower)
+      $this->info ("\nRequired:\n" . print_r ($requireBower, true));
+    else $this->info ("No packages found.");
 
-//    $dependencies = $this->_installBower ($requireBower);
+    $dependencies = $this->_installBower ($requireBower);
+//    $dependencies = [];
 
-    if ($this->io->isDebug ())
-      $this->io->write (PHP_EOL . "<info>[composer-bower-plugin]</info> Runned successfully. " . count ($dependencies) .
-                        " bower packages are installed." . PHP_EOL);
+    $this->info ("Runned successfully. " . count ($dependencies) .
+                 " bower packages are installed.");
   }
 
   private function _installBower ($requireBower)
