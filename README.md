@@ -10,6 +10,12 @@ packages may define their own bower dependencies.
 
 This plugin will merge all dependencies in memory, while running. No configuration files on disk will be modified.
 
+> **Note:** this Readme has information that only applies to the final version of the plugin, which is **not yet available**.  
+Currently, the plugin **still uses the Bower executable** for installing packages.  
+Some of the information on this document may still not apply.  
+This notice will be removed as soon as the final version is completed.  
+We're sorry for the inconvenience.
+
 ### Configuring
 
 Dependencies are specified by an extra configuration section on your project's `composer.json` or on any 

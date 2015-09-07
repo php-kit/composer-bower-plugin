@@ -55,8 +55,6 @@ class Plugin implements PluginInterface, EventSubscriberInterface
 
   public function onPostUpdate (Event $event)
   {
-    $this->info ("Running...");
-
     $requireBower = [];
 
     if ($event->isDevMode ()) {
@@ -76,15 +74,12 @@ class Plugin implements PluginInterface, EventSubscriberInterface
       }
     }
 
-    if ($requireBower)
-      $this->info ("\nRequired:\n" . print_r ($requireBower, true));
-    else $this->info ("No packages found.");
+    if (!$requireBower)
+      $this->info ("No Bower packages are required by the application or by any installed Composer package.");
 
     $dependencies = $this->_installBower ($requireBower);
-//    $dependencies = [];
 
-    $this->info ("Runned successfully. " . count ($dependencies) .
-                 " bower packages are installed.");
+    $this->info ((count ($dependencies) ?: "No") ." bower packages are installed.");
   }
 
   private function _installBower ($requireBower)
@@ -131,7 +126,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface
       file_put_contents ('.bowerrc', json_encode ($config, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES |
                                                            JSON_UNESCAPED_UNICODE));
     }
-    $this->info ("Installing bower dependencies...");
+    $this->info ($requireBower ? "Installing/updating Bower packages..." : "Removing Bower packages (if any)...");
 
     $cmd = "$bowerBin --allow-root install";
     passthru ($cmd, $retVar);
