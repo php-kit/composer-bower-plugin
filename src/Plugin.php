@@ -1,5 +1,5 @@
 <?php
-namespace Impactwave\ComposerBowerPlugin;
+namespace PhpKit\ComposerBowerPlugin;
 
 use Composer\Composer;
 use Composer\EventDispatcher\EventSubscriberInterface;

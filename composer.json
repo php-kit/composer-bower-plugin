@@ -1,5 +1,5 @@
 {
-  "name": "impactwave/composer-bower-plugin",
+  "name": "php-kit/composer-bower-plugin",
   "description": "Composer plugin for installing Bower packages",
   "type": "composer-plugin",
   "keywords": [
@@ -11,7 +11,7 @@
     "packages",
     "assets"
   ],
-  "homepage": "https://github.com/impactwave/composer-bower-plugin",
+  "homepage": "https://github.com/php-kit/composer-bower-plugin",
   "license": "MIT",
   "authors": [
     {
@@ -32,11 +32,11 @@
     "composer/composer": "dev-master"
   },
   "extra": {
-    "class": "Impactwave\\ComposerBowerPlugin\\Plugin"
+    "class": "PhpKit\\ComposerBowerPlugin\\Plugin"
   },
   "autoload": {
     "psr-4": {
-      "Impactwave\\ComposerBowerPlugin\\": "src"
+      "PhpKit\\ComposerBowerPlugin\\": "src"
     }
   }
 }
