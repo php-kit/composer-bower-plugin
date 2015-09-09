@@ -24,7 +24,7 @@ packages' own `composer.json`.
 
 ```json
 "require": {
-  "impactwave/composer-bower-plugin": "dev-master"
+  "php-kit/composer-bower-plugin": "dev-master"
 },
 "extra": {
   "bower": {
@@ -67,11 +67,10 @@ Packages cannot specify their own scripts.
 
 ## License
 
-This library is open-source software licensed under the [MIT license](http://opensource.org/licenses/MIT).
+This library is open-source software licensed under the BSD-2-Clause license (see the accompanying `COPYING` file).
 
-Copyright &copy; 2015 Impactwave, Lda and Vivid Planet Software GmbH
+Copyright &copy; 2015 by Impactwave Lda <impactwave@impactwave.com>  
+Copyright &copy; 2014 by Vivid Planet Software GmbH <office@vivid-planet.com>
 
-The project started originally as a fork of [composer-extra-assets plugin](https://github.com/koala-framework/composer-extra-assets),
-but it is being completely rewritten to use BowerPHP instead of the Bower executable. Soon, all code from the original project will be gone.
-
-Thank you, Niko Sams, for such an excelent plugin.
+This project started as a fork of [composer-extra-assets plugin](https://github.com/koala-framework/composer-extra-assets),
+but it has been extensively modified and it is, currently, no longer compatible with it.
