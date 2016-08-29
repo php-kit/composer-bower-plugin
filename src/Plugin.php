@@ -38,6 +38,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface
   public function onPostUpdate (Event $event)
   {
     $requireBower = [];
+    $overridesBower = [];
 
     if ($event->isDevMode ()) {
       $extra = $this->composer->getPackage ()->getExtra ();
@@ -50,16 +51,20 @@ class Plugin implements PluginInterface, EventSubscriberInterface
       $this->composer->getRepositoryManager ()->getLocalRepository ()->getCanonicalPackages ());
     foreach ($packages as $package) {
       if ($package instanceof CompletePackage) {
+
         $extra = $package->getExtra ();
         if (isset($extra['bower']) && isset($extra['bower']['require']))
           $requireBower = $this->_mergeDependencyVersions ($requireBower, $extra['bower']['require']);
+
+        if (isset($extra['bower']) && isset($extra['bower']['overrides']))
+          $overridesBower = array_merge_recursive ($overridesBower, $extra['bower']['overrides']);
+
       }
     }
-
     if (!$requireBower)
       $this->info ("No Bower packages are required by the application or by any installed Composer package");
 
-    $dependencies = $this->_installBower ($requireBower);
+    $dependencies = $this->_installBower ($requireBower, $overridesBower);
 
     $this->info ((count ($dependencies) ?: "No") . " bower packages are installed");
   }
@@ -84,7 +89,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface
     }
   }
 
-  private function _installBower ($requireBower)
+  private function _installBower ($requireBower, $overridesBower)
   {
     $out    = [];
     $retVar = null;
@@ -114,6 +119,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface
       ];
     }
     $packageJson['dependencies'] = $requireBower;
+    $packageJson['overrides'] = $overridesBower;
     $jsonFile->write ($packageJson);
     if (!file_exists ('.bowerrc')) {
       $vd = $this->composer->getConfig ()->get ('vendor-dir');
