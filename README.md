@@ -34,6 +34,11 @@ packages' own `composer.json`.
     "require-dev": {
       "jasmine": "~2.3.4"
     },
+    "overrides": {
+      "datatables": {
+        "main": "media/js/jquery.dataTables.js"
+      }
+    },
     "directory": "vendor/bower_components",
     "scripts": {
       "post-update-cmd": "Namespace\\Class::method or command --with args"
