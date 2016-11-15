@@ -37,9 +37,9 @@ class Plugin implements PluginInterface, EventSubscriberInterface
 
   public function onPostUpdate (Event $event)
   {
-    $requireBower = [];
+    $requireBower   = [];
     $overridesBower = [];
-	$resolutions = null;
+    $resolutions    = [];
 
     if ($event->isDevMode ()) {
       $extra = $this->composer->getPackage ()->getExtra ();
@@ -52,17 +52,16 @@ class Plugin implements PluginInterface, EventSubscriberInterface
       $this->composer->getRepositoryManager ()->getLocalRepository ()->getCanonicalPackages ());
     foreach ($packages as $package) {
       if ($package instanceof CompletePackage) {
-
         $extra = $package->getExtra ();
+
         if (isset($extra['bower']) && isset($extra['bower']['require']))
           $requireBower = $this->_mergeDependencyVersions ($requireBower, $extra['bower']['require']);
 
         if (isset($extra['bower']) && isset($extra['bower']['overrides']))
           $overridesBower = array_merge_recursive ($overridesBower, $extra['bower']['overrides']);
 
-		if (isset($extra['bower']) && isset($extra['bower']['resolutions'])) {
+        if (isset($extra['bower']) && isset($extra['bower']['resolutions']))
           $resolutions = $extra['bower']['resolutions'];
-        }
       }
     }
     if (!$requireBower)
@@ -93,7 +92,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface
     }
   }
 
-  private function _installBower ($requireBower, $overridesBower, $resolutions)
+  private function _installBower ($requireBower, $overrides, $resolutions)
   {
     $out    = [];
     $retVar = null;
@@ -123,10 +122,10 @@ class Plugin implements PluginInterface, EventSubscriberInterface
       ];
     }
     $packageJson['dependencies'] = $requireBower;
-    $packageJson['overrides'] = $overridesBower;
-	if ($resolutions !== null && count($resolutions) > 0) {
+    if ($overrides)
+      $packageJson['overrides'] = $overrides;
+    if ($resolutions)
       $packageJson['resolutions'] = $resolutions;
-    }
     $jsonFile->write ($packageJson);
     if (!file_exists ('.bowerrc')) {
       $vd = $this->composer->getConfig ()->get ('vendor-dir');
