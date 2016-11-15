@@ -39,6 +39,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface
   {
     $requireBower = [];
     $overridesBower = [];
+	$resolutions = null;
 
     if ($event->isDevMode ()) {
       $extra = $this->composer->getPackage ()->getExtra ();
@@ -59,12 +60,15 @@ class Plugin implements PluginInterface, EventSubscriberInterface
         if (isset($extra['bower']) && isset($extra['bower']['overrides']))
           $overridesBower = array_merge_recursive ($overridesBower, $extra['bower']['overrides']);
 
+		if (isset($extra['bower']) && isset($extra['bower']['resolutions'])) {
+          $resolutions = $extra['bower']['resolutions'];
+        }
       }
     }
     if (!$requireBower)
       $this->info ("No Bower packages are required by the application or by any installed Composer package");
 
-    $dependencies = $this->_installBower ($requireBower, $overridesBower);
+    $dependencies = $this->_installBower ($requireBower, $overridesBower, $resolutions);
 
     $this->info ((count ($dependencies) ?: "No") . " bower packages are installed");
   }
@@ -89,7 +93,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface
     }
   }
 
-  private function _installBower ($requireBower, $overridesBower)
+  private function _installBower ($requireBower, $overridesBower, $resolutions)
   {
     $out    = [];
     $retVar = null;
@@ -120,6 +124,9 @@ class Plugin implements PluginInterface, EventSubscriberInterface
     }
     $packageJson['dependencies'] = $requireBower;
     $packageJson['overrides'] = $overridesBower;
+	if ($resolutions !== null && count($resolutions) > 0) {
+      $packageJson['resolutions'] = $resolutions;
+    }
     $jsonFile->write ($packageJson);
     if (!file_exists ('.bowerrc')) {
       $vd = $this->composer->getConfig ()->get ('vendor-dir');
@@ -181,5 +188,4 @@ class Plugin implements PluginInterface, EventSubscriberInterface
     }
     return $array1;
   }
-
 }
