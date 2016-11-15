@@ -58,18 +58,6 @@ The plugin updates bower dependencies whenever one or more packages are installe
 
 You may then copy the relevant source code files from the installation directory to a public web directory, using your favorite build tool.
 
-##### The following information refers to functionality that is not yet available
-
-To automate that process, `composer-bower-plugin` exposes a hook for running your build script.
-
-On `composer.json`, you can specify an `extra.bower.scripts.post-update-cmd` key, indicating a class and method name to be invoked or, alternatively,
-the name and arguments of a command-line executable script/program.
-
-> `post-update-cmd` will run for both *install* and *update* events.
-
-> Script hooks will only run first for the main `composer.json`.  
-Packages cannot specify their own scripts.
-
 ## License
 
 This library is open-source software licensed under the BSD-2-Clause license (see the accompanying `COPYING` file).
