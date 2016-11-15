@@ -18,6 +18,13 @@ packages' own `composer.json`.
 
 > `bower.json` files are neither required nor supported. This is by design. All configuration information comes from `composer.json`.
 
+#### Supported configuration keys
+
+1. `require`
+1. `require-dev`
+1. `overrides`
+1. `resolutions`
+
 #### Example
 
 ###### root composer.json
@@ -39,9 +46,8 @@ packages' own `composer.json`.
         "main": "media/js/jquery.dataTables.js"
       }
     },
-    "directory": "vendor/bower_components",
-    "scripts": {
-      "post-update-cmd": "Namespace\\Class::method or command --with args"
+    "resolutions": {
+      "ember": "1.5.1"
     }
   }
 }
